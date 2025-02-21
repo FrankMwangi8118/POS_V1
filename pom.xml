@@ -16,16 +16,12 @@
 	<description>Demo project for Spring Boot</description>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>6.2.1</version> <!-- Adjust version as needed -->
-		</dependency>
-
+		<!-- Spring Boot Starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+
 		<!-- Spring Boot Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -79,7 +75,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
 				<configuration>
-					<!-- You only need this configuration -->
 					<release>21</release>
 					<annotationProcessorPaths>
 						<path>
@@ -88,6 +83,13 @@
 							<version>1.18.30</version>
 						</path>
 					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.codify.ioio.IoioApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -2,14 +2,14 @@ package com.codify.ioio.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +30,7 @@ public class CustomSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+
                 .csrf(Customizer->Customizer.disable())
 
 
@@ -39,16 +40,19 @@ public class CustomSecurityConfig {
 
 
                 .sessionManagement(session->session
-                        .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 
                 )
                 .authorizeHttpRequests(registry->{
-                    registry.requestMatchers("/api/pos/v1/security/**").permitAll();
-                    registry.requestMatchers("/home").permitAll();
-                    registry.requestMatchers("/payment").permitAll();
-                    registry.requestMatchers("/filtering").permitAll();
-                    registry.requestMatchers("/names").authenticated();
+                    registry.requestMatchers("/login").permitAll();
+                    registry.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll();
+
                     registry.anyRequest().authenticated();
+//                    registry.requestMatchers("/stock").permitAll();
+//                    registry.requestMatchers("/baseController").authenticated();
+//                    registry.requestMatchers("/filterSales").authenticated();
+//                    registry.requestMatchers("/filterPayments").authenticated();
+
                 }).build();
     }
     @Bean

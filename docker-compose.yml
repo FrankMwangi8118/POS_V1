@@ -10,16 +10,15 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - ./data:/var/lib/postgresql/data
-      - ./mwas.conf:/etc/postgresql/postgresql.conf
+
     ports:
-      - "5437:5432"
+      - "5432:5432"
     networks:
       - app-network
 
-  app:
-    build:
-      context: . # Specify the directory containing your Dockerfile
-    container_name: docker-app200
+  backend:
+    image: frankmwangi8118/pos:v1
+    container_name: pos-app
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://docker-postgres200:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
@@ -34,3 +33,5 @@ services:
 networks:
   app-network:
     driver: bridge
+
+

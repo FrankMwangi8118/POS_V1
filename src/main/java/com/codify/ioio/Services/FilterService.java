@@ -11,8 +11,10 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class FilterService {
@@ -23,7 +25,7 @@ public class FilterService {
         this.entityManager = entityManager;
     }
 
-    public List<List<TblSales>> filterSales(String filterParam) {
+    public List <TblSales> filterSales(String filterParam) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<TblSales> cq=cb.createQuery(TblSales.class);
         Root<TblSales> root=cq.from(TblSales.class);
@@ -50,14 +52,15 @@ public class FilterService {
 
         // Set the predicate and execute the query
         cq.where(predicate);
-        return Collections.singletonList(entityManager.createQuery(cq).getResultList());
+        return Collections.singletonList((TblSales) entityManager.createQuery(cq).getResultList());
 
     }
+
 
     // filter payments
 
 
-    public List<List<TblPayment>> filterPayment(String filterParam) {
+    public List<TblPayment> filterPayment(String filterParam) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<TblPayment> cq=cb.createQuery(TblPayment.class);
         Root<TblPayment> root=cq.from(TblPayment.class);
@@ -84,14 +87,28 @@ public class FilterService {
 
         // Set the predicate and execute the query
         cq.where(predicate);
-        return Collections.singletonList(entityManager.createQuery(cq).getResultList());
+        return Collections.singletonList((TblPayment) entityManager.createQuery(cq).getResultList());
 
     }
 
+    public List<Object> filterDashData(String filterParam) {
+        List<Object> filteredDataList = new ArrayList<>();
+        List<TblPayment> tblPaymentList = filterPayment(filterParam);
+        List <TblSales> filteredSalesList = filterSales(filterParam);
 
+        if (!tblPaymentList.isEmpty()) {
+            filteredDataList.addAll(tblPaymentList);
+        }
+        if (!filteredSalesList.isEmpty()) {
+            filteredDataList.addAll(filteredSalesList);
+        }
 
-
-
-
+        return filteredDataList;
+    }
 
 }
+
+
+
+
+

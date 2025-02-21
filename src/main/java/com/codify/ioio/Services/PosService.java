@@ -1,5 +1,6 @@
 package com.codify.ioio.Services;
 
+import com.codify.ioio.Model.Home;
 import com.codify.ioio.Model.TblPayment;
 import com.codify.ioio.Model.TblSales;
 import com.codify.ioio.Model.TblStock;
@@ -8,6 +9,7 @@ import com.codify.ioio.Repository.SalesRepo;
 import com.codify.ioio.Repository.StockTblRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -40,28 +42,57 @@ private final FilterService filterService;
 
 
 
-    public Integer salesCalc() {
-     return calc( customerRepo.findAll());
-    }
 
-    private int calc(List<TblPayment> all) {
-        double price=all.stream()
+
+    public int getTotalPayments(List<TblPayment> allPayments) {
+        double summation=allPayments.stream()
                 .mapToDouble(TblPayment::getAmount)
                 .sum();
-        return (int)price;
+        return (int)summation;
     }
+
 
 
     public List <TblSales> allSales() {
         return salesRepo.findAll();
     }
 
-    public List<List<TblSales>> filterSales(String filterParam) {
+    public List <TblSales> filterSales(String filterParam) {
 
         return filterService.filterSales(filterParam);
     }
 
-    public List<List<TblPayment>> filterPayment(String filterParam){
+    public List filterDashData(String filterParam){
+        return Collections.singletonList(filterService.filterDashData(filterParam));
+    }
+
+    public List<TblPayment>filterPayment(String filterParam){
         return filterService.filterPayment(filterParam);
+    }
+
+    public Integer getTotalStockPrice(List<TblStock> tblStocks) {
+
+        double summation=tblStocks.stream()
+                .mapToDouble(TblStock::getPrice)
+                .sum();
+        return (int) summation;
+    }
+
+    public double getTotalSales(List<TblSales> allSales) {
+        double summation=allSales.stream()
+                .mapToDouble(TblSales::getTotalPrice)
+                .sum();
+        return (int) summation;
+
+    }
+
+
+    public Object getDashData(Integer totalStockPrice, double totalSales, int totalPayments,int baseSize) {
+        return Home.builder()
+                .numberOfCustomers(baseSize)
+                .totalPayments(totalPayments)
+                .totalSales(totalSales)
+                .totalStockPrice(totalStockPrice)
+                .build();
     }
 }
