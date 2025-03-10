@@ -45,6 +45,7 @@ public class CustomSecurityConfig {
                 )
                 .authorizeHttpRequests(registry->{
                     registry.requestMatchers("/login").permitAll();
+                    registry.requestMatchers("/stock/**").permitAll();
                     registry.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll();
 
                     registry.anyRequest().authenticated();

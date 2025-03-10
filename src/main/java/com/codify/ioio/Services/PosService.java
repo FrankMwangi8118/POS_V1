@@ -7,6 +7,9 @@ import com.codify.ioio.Model.TblStock;
 import com.codify.ioio.Repository.CustomerRepo;
 import com.codify.ioio.Repository.SalesRepo;
 import com.codify.ioio.Repository.StockTblRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -94,5 +97,11 @@ private final FilterService filterService;
                 .totalSales(totalSales)
                 .totalStockPrice(totalStockPrice)
                 .build();
+    }
+
+    public Page<TblStock> allPageableStock(int page, int size) {
+
+        Pageable pageable= PageRequest.of(page, size);
+        return stockTblRepo.findAll(pageable);
     }
 }

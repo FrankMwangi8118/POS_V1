@@ -74,6 +74,16 @@ public class PosControllers {
                   .build()
         );
     }
+    @GetMapping("/stock/page")
+    public ResponseEntity<ApiResponse>allPageableStock(@RequestParam(defaultValue = "0")int page ,@RequestParam(defaultValue = "2") int size){
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .results(posService.allPageableStock(page,size))
+                        .responseCode("200")
+                        .responseMessage("all remaining stock")
+                        .build()
+        );
+    }
 
 
 
