@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS tbl_stock (
     item_name VARCHAR(50) NOT NULL,
     quantity INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
-    total_stock_price DECIMAL(10,2) GENERATED ALWAYS AS(quantity * price) STORED
+    total_stock_price DECIMAL(10,2) GENERATED ALWAYS AS(quantity * price) STORED,
+    add_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
 );
 CREATE TABLE IF NOT EXISTS tbl_sales (
     id SERIAL PRIMARY KEY,

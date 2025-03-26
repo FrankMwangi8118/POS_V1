@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,12 +20,14 @@ private final  CustomerRepo customerRepo;
 private final StockTblRepo stockTblRepo;
 private final SalesRepo salesRepo;
 private final FilterService filterService;
+private final DashService dashService;
 
-    public PosService(CustomerRepo customerRepo, StockTblRepo stockTblRepo, SalesRepo salesRepo, FilterService filterService) {
+    public PosService(CustomerRepo customerRepo, StockTblRepo stockTblRepo, SalesRepo salesRepo, FilterService filterService, DashService dashService) {
         this.customerRepo = customerRepo;
         this.stockTblRepo = stockTblRepo;
         this.salesRepo = salesRepo;
         this.filterService = filterService;
+        this.dashService = dashService;
     }
 
     public List<TblPayment> getAllPayments() {
@@ -37,6 +38,8 @@ private final FilterService filterService;
     public Integer getCustomerBaseSize() {
         return getAllPayments().size();
     }
+
+
 
     public List<TblStock> allStock() {
         return stockTblRepo.findAll();
@@ -65,8 +68,8 @@ private final FilterService filterService;
         return filterService.filterSales(filterParam);
     }
 
-    public List filterDashData(String filterParam){
-        return Collections.singletonList(filterService.filterDashData(filterParam));
+    public Home filterDashData(String filterParam){
+      return dashService.filterDashData(filterParam);
     }
 
     public List<TblPayment>filterPayment(String filterParam){

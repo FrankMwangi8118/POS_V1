@@ -18,6 +18,7 @@ public class SecurityController {
     public SecurityController(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@RequestBody LoginDto loginDto, HttpServletRequest request) {
         try {
@@ -45,8 +46,9 @@ public class SecurityController {
             );
         }
     }
+
     @GetMapping("/hi")
-    public String hello(){
+    public String hello() {
         return "hello";
     }
 }

@@ -17,7 +17,7 @@ public class PosControllers {
     }
 
     @GetMapping("/allPayments")
-    public ResponseEntity<ApiResponse> getName(){
+    public ResponseEntity<ApiResponse> getName(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "15")int size) {
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .responseCode("200")
@@ -26,8 +26,9 @@ public class PosControllers {
                         .build()
         );
     }
+
     @GetMapping("/dashData")
-    public ResponseEntity <ApiResponse> dashData(){
+    public ResponseEntity<ApiResponse> dashData() {
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .responseCode("200")
@@ -35,7 +36,7 @@ public class PosControllers {
                         .results(posService.getDashData(
                                 posService.getTotalStockPrice(posService.allStock()),
                                 posService.getTotalSales(posService.allSales()),
-                               posService.getTotalPayments(posService.getAllPayments()),
+                                posService.getTotalPayments(posService.getAllPayments()),
                                 posService.getCustomerBaseSize()
 
                         ))
@@ -43,9 +44,10 @@ public class PosControllers {
                         .build()
         );
     }
+
     @GetMapping("/filter")
-    public ResponseEntity <ApiResponse> filterDash(@RequestParam String filterParam){
-        return  ResponseEntity.ok(
+    public ResponseEntity<ApiResponse> filterDash(@RequestParam String filterParam) {
+        return ResponseEntity.ok(
                 ApiResponse.builder()
                         .responseCode("200")
                         .responseMessage("filterData")
@@ -55,30 +57,23 @@ public class PosControllers {
     }
 
     @GetMapping("/totalCustomers")
-    public ResponseEntity<ApiResponse> allCustomers(){
-        return ResponseEntity.ok(
-          ApiResponse.builder()
-                  .responseCode("200")
-                  .responseMessage("all customers")
-                  .intResponse(posService.getCustomerBaseSize())
-                  .build()
-        );
-    }
-    @GetMapping("/stock")
-    public ResponseEntity<ApiResponse> allStock(){
-        return ResponseEntity.ok(
-          ApiResponse.builder()
-                  .results(posService.allStock())
-                  .responseCode("200")
-                  .responseMessage("all remaining stock")
-                  .build()
-        );
-    }
-    @GetMapping("/stock/page")
-    public ResponseEntity<ApiResponse>allPageableStock(@RequestParam(defaultValue = "0")int page ,@RequestParam(defaultValue = "2") int size){
+    public ResponseEntity<ApiResponse> allCustomers() {
         return ResponseEntity.ok(
                 ApiResponse.builder()
-                        .results(posService.allPageableStock(page,size))
+                        .responseCode("200")
+                        .responseMessage("all customers")
+                        .intResponse(posService.getCustomerBaseSize())
+                        .build()
+        );
+    }
+
+    
+
+    @GetMapping("/stock")
+    public ResponseEntity<ApiResponse> allPageableStock(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .results(posService.allPageableStock(page, size))
                         .responseCode("200")
                         .responseMessage("all remaining stock")
                         .build()
@@ -86,9 +81,8 @@ public class PosControllers {
     }
 
 
-
     @GetMapping("/allSales")
-    public ResponseEntity<ApiResponse> allSale() {
+    public ResponseEntity<ApiResponse> allSale(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "15")int size) {
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .responseMessage("total sales")
@@ -98,8 +92,9 @@ public class PosControllers {
         );
 
     }
+
     @GetMapping("/filterSales")
-    public ResponseEntity<ApiResponse>filterSales(@RequestParam String filterParam){
+    public ResponseEntity<ApiResponse> filterSales(@RequestParam String filterParam)  {
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .responseCode("200")
@@ -108,8 +103,9 @@ public class PosControllers {
                         .build()
         );
     }
+
     @GetMapping("/filterPayments")
-    public ResponseEntity<ApiResponse>allPayment(@RequestParam String filterParam){
+    public ResponseEntity<ApiResponse> allPayment(@RequestParam String filterParam) {
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .responseCode("200")
@@ -129,6 +125,13 @@ public class PosControllers {
 //        );
 //    }
 
+@GetMapping("/filterDashData")
+    public ResponseEntity<ApiResponse> filterDashDataByWeek(@RequestParam String filterParam) {
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .results(posService.filterDashData(filterParam))
+                        .build()
+        );
     }
-
+}
 

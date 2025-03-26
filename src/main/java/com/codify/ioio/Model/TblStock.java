@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 @Entity
 @Data
 public class TblStock {
@@ -12,6 +14,6 @@ public class TblStock {
     private String itemName;
     private int quantity;
     private double price;
-
+    private Timestamp addTime;
 
 }
